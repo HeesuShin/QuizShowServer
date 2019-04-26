@@ -1,0 +1,38 @@
+{
+"development": {
+        "username": "root",
+        "password": "P@ssw0rd",
+        "database": "quizShow",
+        "host": "localhost",
+        "dialect": "mysql",
+        "operatorsAliases": false,
+        "pool": {
+            "max": 5,
+            "min": 0,
+            "acquire": 30000,
+            "idle": 10000
+        }
+    },
+    "test": {
+        "username": "root",
+        "password": null,
+        "database": "database_test",
+        "host": "127.0.0.1",
+        "dialect": "mysql"
+    },
+    "production": {
+        "username": "root",
+        "password": null,
+        "database": "database_production",
+        "host": "127.0.0.1",
+        "dialect": "mysql"
+    },
+    "eth": {
+        "url": "https://ropsten.infura.io/v3/c0ed3b6c1cfe4e4d8f583a4d335d14fd"
+    },
+    "contract": {
+        "quiz": "0xf9da1791376e03da8cf6636aa65cfb72dc77169b"
+    },
+    "admin": "0x2a02cd212dbc13c2457f1937b5c3ffe190970bd7",
+    "adminPK": "AMIN_PK"
+}
