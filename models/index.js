@@ -13,6 +13,7 @@ db.User = require('./user')(sequelize, Sequelize);
 db.QuizInformation = require('./quizInformation')(sequelize, Sequelize);
 db.QuizList = require('./quizList')(sequelize, Sequelize);
 db.QuizAnswerList = require('./quizAnswerList')(sequelize, Sequelize);
+db.TempCount = require('./tempCount')(sequelize, Sequelize);
 
 db.QuizInformation.hasMany(db.QuizList, { foreignKey: 'round', sourceKey: 'id' })
 db.QuizList.belongsTo(db.QuizInformation, { foreignKey: 'round', targetKey: 'id' });

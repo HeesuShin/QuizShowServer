@@ -4,6 +4,7 @@ const dapp = require('../eth/dapp');
 const QuizInformation = require('../models').QuizInformation;
 const QuizList = require('../models').QuizList;
 const QuizAnswerList = require('../models').QuizAnswerList;
+const TempCount = require('../models').TempCount;
 
 const router = express.Router();
   
@@ -73,35 +74,50 @@ router.get('/showlist', (req, res) => {
     });
 });
 
-router.post('/round/result', (req, res) => {
+router.post('/round/result', async function (req, res) {
   let result = req.body.result;
   console.log('request quiz result: ' + result);
+  const tempCount = await TempCount.findAll({
+    where: {}
+  });
+  let rightCount = tempCount[0].rightCount;
+  let wrongCount = tempCount[0].wrongCount;
 
-  if (req.session.rightCount == undefined) {
-    req.session.rightCount = 0;
-  }
-  if (req.session.wrongCount == undefined) {
-    req.session.wrongCount = 0;
-  }
-  
   if (result == "right") {
-    req.session.rightCount = req.session.rightCount + 1;
+    try {
+      TempCount.update({
+        rightCount: rightCount + 1
+      }, {
+        where: {id: 1}
+      });
+    } catch (error) {
+      console.log(error);
+    }
   } else if (result == "false") {
-    req.session.wrongCount = req.session.wrongCount + 1;
+    TempCount.update({
+      wrongCount: wrongCount++
+    }, {
+      where: {id: 1}
+    });
   }
   res.write(JSON.stringify({success: true}));
   res.end();
 });
 
-router.get('/round/result', (req, res) => {
-  
-  let rightCount = req.session.rightCount;
-  let wrongCount = req.session.wrongCount;
-  console.log('request round result: ' + rightCount + ", " + wrongCount);
-
-  req.session.rightCount = 0;
-  req.session.wrongCount = 0;
-
+router.get('/round/result', async function (req, res) {
+  const tempCount = await TempCount.findAll({
+    where: {}
+  });
+  let rightCount = tempCount[0].rightCount;
+  let wrongCount = tempCount[0].wrongCount;
+  console.log(tempCount[0].rightCount);
+  console.log(tempCount[0].wrongCount);
+  TempCount.update({
+    rightCount: 0,
+    wrongCount: 0
+  }, {
+    where: {id: 1}
+  });
   res.write(JSON.stringify({rightCount: rightCount, wrongCount: wrongCount}));
   res.end();
 });
