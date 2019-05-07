@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -12,6 +13,12 @@ sequelize.sync();
 
 //Declaring Port
 const port = 8001;
+
+app.use(session({
+    secret: 'test1234',
+    resave: true,
+    saveUninitialized: true
+}));
 
 //Middleware for CORS
 app.use(cors());

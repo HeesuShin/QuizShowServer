@@ -73,6 +73,39 @@ router.get('/showlist', (req, res) => {
     });
 });
 
+router.post('/round/result', (req, res) => {
+  let result = req.body.result;
+  console.log('request quiz result: ' + result);
+
+  if (req.session.rightCount == undefined) {
+    req.session.rightCount = 0;
+  }
+  if (req.session.wrongCount == undefined) {
+    req.session.wrongCount = 0;
+  }
+  
+  if (result == "right") {
+    req.session.rightCount = req.session.rightCount + 1;
+  } else if (result == "false") {
+    req.session.wrongCount = req.session.wrongCount + 1;
+  }
+  res.write(JSON.stringify({success: true}));
+  res.end();
+});
+
+router.get('/round/result', (req, res) => {
+  
+  let rightCount = req.session.rightCount;
+  let wrongCount = req.session.wrongCount;
+  console.log('request round result: ' + rightCount + ", " + wrongCount);
+
+  req.session.rightCount = 0;
+  req.session.wrongCount = 0;
+
+  res.write(JSON.stringify({rightCount: rightCount, wrongCount: wrongCount}));
+  res.end();
+});
+
 // 퀴즈게임 접수 : 일시 20190312120000, 상품 QC, 상금 1000000000, 상태 0)
 //   state  상태 : 0 - 대기, 1 - 게임시작, 2-게임종료, 3- 정산종료
 // ------------------------------------------------------------------------
