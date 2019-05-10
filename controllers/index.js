@@ -95,7 +95,7 @@ router.post('/round/result', async function (req, res) {
     }
   } else if (result == "false") {
     TempCount.update({
-      wrongCount: wrongCount++
+      wrongCount: wrongCount + 1
     }, {
       where: {id: 1}
     });
